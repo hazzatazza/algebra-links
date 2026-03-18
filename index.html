@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algebra Links</title>
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/0/01/El_Sato_Tux_The_penguin_in_sonic_style.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { 
+            background-color: #020617; 
+            color: white; 
+            scroll-behavior: smooth; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            transition: background 0.3s ease;
+        }
+        .game-card:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 10px 20px -10px rgba(59, 130, 246, 0.5); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        main { flex: 1; }
+        header h1 { text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <main class="max-w-7xl mx-auto w-full">
+        <header class="mb-10">
+            <h1 class="text-5xl font-black mb-4 tracking-tighter uppercase text-slate-200">Algebra Links</h1>
+            <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+                <div class="relative max-w-md w-full">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                    <input type="text" id="searchInput" placeholder="Search modules..." 
+                        class="w-full bg-slate-900/90 backdrop-blur-md border border-slate-800 py-3 pl-12 pr-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                </div>
+                <button onclick="changeBackground()" class="bg-slate-800/80 hover:bg-slate-700 backdrop-blur-md border border-slate-700 px-4 py-3 rounded-xl transition-all">
+                    <i class="fas fa-image"></i>
+                </button>
+            </div>
+        </header>
+
+        <div id="gameGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            </div>
+    </main>
+
+    <footer class="mt-20 py-8 border-t border-slate-800/50 text-slate-500 text-sm bg-slate-950/50 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                <span class="bg-red-500/10 text-red-400 px-2 py-1 rounded text-xs font-bold uppercase tracking-widest">Panic Mode</span>
+                <p>Press <kbd class="bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700 text-slate-300">=</kbd> for Compass.</p>
+            </div>
+            <span>© 2026 Hazza</span>
+        </div>
+    </footer>
+
+    <script>
+        const links = [
+            { title: 'Algebra Practice OG Google Site (Outdated)', url: 'https://sites.google.com/view/unblocked-six-seven/', icon: 'fa-link' },
+            { title: 'Algebra Practice (blocked at cccc)', url: 'https://algebrapractise.pages.dev/', icon: 'fa-shield-halved' },
+            { title: 'Algebra Practice 1', url: 'https://algebrapractise1.pages.dev/', icon: 'fa-link' },
+            { title: 'Algebra Practice 2', url: 'https://algebrapractise2.pages.dev/', icon: 'fa-link' },
+            { title: 'Algebra Practice 3', url: 'https://algebrapractise3.pages.dev/', icon: 'fa-link' }
+        ];
+
+        const grid = document.getElementById('gameGrid');
+        const searchInput = document.getElementById('searchInput');
+
+        function renderLinks(filter = "") {
+            grid.innerHTML = "";
+            links.filter(l => l.title.toLowerCase().includes(filter.toLowerCase())).forEach(link => {
+                const card = document.createElement('div');
+                card.className = "game-card bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 p-6 flex flex-col items-center gap-4";
+                card.onclick = () => window.open(link.url, '_blank');
+                card.innerHTML = `
+                    <div class="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center">
+                        <i class="fas ${link.icon} text-2xl text-blue-400"></i>
+                    </div>
+                    <h3 class="font-bold text-center tracking-tight text-slate-200">${link.title}</h3>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function changeBackground() {
+            const url = prompt("Enter image URL:");
+            if (url) {
+                document.body.style.backgroundImage = `url('${url}')`;
+                localStorage.setItem('userBackground', url);
+            }
+        }
+
+        window.addEventListener('load', () => {
+            const savedBg = localStorage.getItem('userBackground');
+            if (savedBg) document.body.style.backgroundImage = `url('${savedBg}')`;
+            renderLinks();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "=") window.location.href = "https://cccc-vic.compass.education";
+        });
+
+        searchInput.oninput = (e) => renderLinks(e.target.value);
+    </script>
+</body>
+</html>
